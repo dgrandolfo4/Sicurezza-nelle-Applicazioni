@@ -1,0 +1,20 @@
+# File compilati
+*.class
+bin/
+build/
+target/
+
+# File e cartelle specifici di Eclipse
+.settings/
+.project
+.classpath
+.metadata/
+*.launch
+
+# File di log
+*.log
+logs/
+
+# File di sistema operativo (se usi Mac/Windows)
+.DS_Store
+Thumbs.db
