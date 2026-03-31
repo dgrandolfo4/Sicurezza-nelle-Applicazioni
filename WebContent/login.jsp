@@ -21,12 +21,16 @@
 	<form method="post" action="LoginServlet">
 	    <table>
 	        <tr>
-	        	<td>Username</td>
-	        	<td><input type="text" name="username"></td>
+	        	<td>Email</td>
+	        	<td><input type="text" name="email"></td>
         	</tr>
 	        <tr>
 	        	<td>Password</td>
-	        	<td><input type="password" name="pass"></td>
+	        	<td><input type="password" name="password"></td>
+        	</tr>
+        	<tr>
+	        	<td>Ricordami</td>
+	        	<td><input type="checkbox" name="remember_me"></td>
         	</tr>
 	        <tr>
 	        	<td></td>
