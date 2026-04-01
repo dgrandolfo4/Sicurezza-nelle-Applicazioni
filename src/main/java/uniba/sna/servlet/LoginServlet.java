@@ -32,8 +32,41 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		// CONTROLLO: L'utente ha già una sessione attiva?
+	    HttpSession session = request.getSession(false); // false = non crearne una nuova se non esiste
+	    if (session != null && session.getAttribute("email") != null) {
+	        response.sendRedirect("benvenuto.jsp");
+	        return;
+	    }
+
+	    // CONTROLLO: L'utente ha il Cookie "Ricordami"?
+	    Cookie[] cookies = request.getCookies();
+	    if (cookies != null) {
+	        for (Cookie c : cookies) {
+	            if ("rememberme".equals(c.getName())) {
+	                try {
+	                    // Decifriamo il cookie con AES
+	                    String decryptedEmail = CookieHelper.decrypt(c.getValue());
+	                    
+	                    if (decryptedEmail != null) {
+	                        // Il cookie è autentico! Ricreiamo la sessione e lo facciamo entrare
+	                        session.setAttribute("email", decryptedEmail);
+	                        session.setMaxInactiveInterval(60 * 15); // Rimettiamo il timeout di sicurezza
+	                        
+	                        response.sendRedirect("benvenuto.jsp");
+	                        return; // Ferma il caricamento della pagina di login
+	                    }
+	                } catch (Exception e) {
+	                    // Distruggiamo il cookie
+	                    c.setMaxAge(0);
+	                    c.setPath(request.getContextPath());
+	                    response.addCookie(c);
+	                }
+	            }
+	        }
+	    }
+	    
+	    request.getRequestDispatcher("login.jsp").forward(request, response);
 	}
 
 	/**
@@ -45,6 +78,7 @@ public class LoginServlet extends HttpServlet {
 		// Memorizziamo la password in un array di byte per garantire
 		// maggiore sicurezza rispetto a memorizzarla in una stringa.
 		byte[] password = request.getParameter("password").getBytes();
+		
 		try {
 			LoginDAO dao = new LoginDAO();
 			if(dao.isUserValid(email, password)) {
@@ -60,7 +94,7 @@ public class LoginServlet extends HttpServlet {
 				// Impostiamo un timeout di inattività (es. 15 minuti)
 				session.setMaxInactiveInterval(60 * 15);
 				// Salviamo l'utente nella sessione
-				session.setAttribute("user", email);
+				session.setAttribute("email", email);
 				
 				// FINE [Gestione Sessione]
 				
