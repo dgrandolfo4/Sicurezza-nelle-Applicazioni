@@ -18,6 +18,15 @@
 		    </div>
 		<% } %>
 		
+		<% 
+		    String errore = (String) request.getAttribute("msgError");
+		    if (errore != null) { 
+		%>
+		    <div style="color: red; font-weight: bold;">
+		        <%= errore %>
+		    </div>
+		<% } %>
+		
 		<form method="post" action="LoginServlet">
 		    <table>
 		        <tr>
