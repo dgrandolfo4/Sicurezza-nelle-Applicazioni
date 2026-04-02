@@ -85,11 +85,13 @@ public class LoginServlet extends HttpServlet {
 
 				response.sendRedirect("benvenuto.jsp");
 			} else {
-				response.sendRedirect("errore.jsp");
+				request.setAttribute("msgError", "Email o password errati. Riprova.");
+				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
-			response.sendRedirect("errore.jsp");
+			request.setAttribute("msgError", "Si è verificato un errore di sistema. Riprova più tardi.");
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 		} finally {
 			if (password != null) {
 				Arrays.fill(password, (byte) 0);

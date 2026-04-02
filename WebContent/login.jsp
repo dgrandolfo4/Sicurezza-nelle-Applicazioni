@@ -19,6 +19,15 @@
 		<% } %>
 		
 		<% 
+		    String info = (String) request.getAttribute("msgInfo");
+		    if (info != null) { 
+		%>
+		    <div style="color: blue; font-weight: bold;">
+		        <%= info %>
+		    </div>
+		<% } %>
+		
+		<% 
 		    String errore = (String) request.getAttribute("msgError");
 		    if (errore != null) { 
 		%>
