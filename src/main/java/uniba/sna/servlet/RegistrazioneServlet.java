@@ -5,9 +5,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import javax.servlet.ServletException;
@@ -99,12 +100,29 @@ public class RegistrazioneServlet extends HttpServlet {
         }
 
         String originalFileName = filePart.getSubmittedFileName();
-        
+	
+        // INIZIO [Creazione Nome Univoco per il File]
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+        String dateOggi = LocalDateTime.now().format(formatter);
+	    String nomeSenzaEstensione = "";
+	    String estensione = "";
+	    
+	    int lastDotIndex = originalFileName.lastIndexOf('.');
+	    if (lastDotIndex > 0) {
+	        nomeSenzaEstensione = originalFileName.substring(0, lastDotIndex);
+	        estensione = originalFileName.substring(lastDotIndex);
+	    } else {
+	        nomeSenzaEstensione = originalFileName;
+	    }
+	    
+	    String uniqueFileName = nomeSenzaEstensione + "_" + dateOggi + estensione;
+        // FINE [Creazione Nome Univoco per il File]
+
         // Usiamo il path caricato dal config.ini
-        File targetFile = new File(uploadDir, originalFileName);
+        File targetFile = new File(uploadDir, uniqueFileName);
         
         try (InputStream initialStream = filePart.getInputStream()) {
-            Files.copy(initialStream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(initialStream, targetFile.toPath());
         }
         
 		long lastModifiedTimeAtCheck = targetFile.lastModified();
@@ -153,7 +171,6 @@ public class RegistrazioneServlet extends HttpServlet {
 		// INIZIO [Controllo TOCTOU]
 		long currentModifiedTime = targetFile.lastModified();
         if (currentModifiedTime != lastModifiedTimeAtCheck) {
-            // Il file è stato manomesso da un processo esterno tra il Check e l'Use!
             targetFile.delete(); // Cancelliamo il file compromesso
             
             // Programmazione difensiva: svuotiamo le password dalla memoria
@@ -168,7 +185,7 @@ public class RegistrazioneServlet extends HttpServlet {
 		// FINE [Controllo TOCTOU]
 
         RegistrazioneDAO dao = new RegistrazioneDAO();
-        boolean isRegistered = dao.registerUser(email, hashedPassword, originalFileName);
+        boolean isRegistered = dao.registerUser(email, hashedPassword, originalFileName, uniqueFileName);
         
         if (isRegistered) {
         	request.setAttribute("msgSuccess", "Registrazione completata con successo! Ora puoi accedere.");

@@ -74,7 +74,7 @@ public class LoginServlet extends HttpServlet {
 					loginCookie.setMaxAge(60 * 60 * 24 * 30); // Scadenza: 30 giorni
 					loginCookie.setPath(request.getContextPath()); // Limita il cookie a questa webapp
 					
-					// Flag di sicurezza obbligatori
+					// Flag di sicurezza
 					loginCookie.setHttpOnly(true); // Previene furto tramite JavaScript (XSS)
 					loginCookie.setSecure(true);   // Forza l'invio solo su HTTPS (no intercettazioni)
 					

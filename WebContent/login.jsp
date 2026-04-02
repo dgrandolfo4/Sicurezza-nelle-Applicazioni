@@ -40,21 +40,18 @@
 		    <table>
 		        <tr>
 		        	<td>Email</td>
-		        	<td><input type="text" name="email"></td>
+		        	<td><input type="text" name="email" required></td>
 	        	</tr>
 		        <tr>
 		        	<td>Password</td>
-		        	<td><input type="password" name="password"></td>
+		        	<td><input type="password" name="password" required></td>
 	        	</tr>
 	        	<tr>
 		        	<td>Ricordami</td>
 		        	<td><input type="checkbox" name="rememberMe"></td>
 	        	</tr>
-		        <tr>
-		        	<td></td>
-		        	<td><button type="submit">Accedi</button></td>
-	        	</tr>
 		    </table>
+    	    <button style="margin-top: 20px" type="submit">Accedi</button>
 		</form>
 		
 		<div style="margin-top: 20px;">
