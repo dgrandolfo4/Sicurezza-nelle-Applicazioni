@@ -16,7 +16,7 @@ public class Proposta {
     }
 
     // Getter
-    public String getNomeOriginale() { return nomeOriginale; }
+    public String getNomeFile() { return nomeOriginale; }
     public String getAutoreEmail() { return autoreEmail; }
     public String getDataUpload() { return dataUpload; }
 }

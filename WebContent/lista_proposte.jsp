@@ -32,27 +32,30 @@
             <p>La seguente tabella contiene le proposte progettuali caricate dagli utenti.</p>
 
             <table border="1" style="width:100%; margin-top:20px;">
-            <tr style="background-color: #f2f2f2;">
-                <th>Nome File Caricato</th>
-                <th>Autore</th>
-                <th>Data Caricamento</th>
-            </tr>
+	            <tr style="background-color: #f2f2f2;">
+	                <th>Nome File Caricato</th>
+	                <th>Autore</th>
+	                <th>Data Caricamento</th>
+	            </tr>
             
-            <% 
-            List<Proposta> lista = (List<Proposta>) request.getAttribute("listaProposte");
-            if (lista != null && !lista.isEmpty()) {
-                for(Proposta p : lista) { 
-            %>
-                <tr>
-                    <td><%= p.getNomeOriginale() %></td>
-                    <td><%= p.getAutoreEmail() %></td>
-                    <td><%= p.getDataUpload() %></td>
-                </tr>
-            <%  }
-            } else { %>
-                <tr><td colspan="4" style="text-align:center;">Nessuna proposta caricata al momento.</td></tr>
-            <% } %>
-        </table>
+	            <% 
+	            @SuppressWarnings("unchecked")
+	            List<Proposta> lista = (List<Proposta>) request.getAttribute("listaProposte");
+	            if (lista != null && !lista.isEmpty()) {
+	                for(Proposta p : lista) { 
+	            %>
+		                <tr>
+		                    <td><%= p.getNomeFile() %></td>
+		                    <td><%= p.getAutoreEmail() %></td>
+		                    <td><%= p.getDataUpload() %></td>
+		                </tr>
+	            <%  }
+	            } else { %>
+	                <tr>
+	                	<td colspan="4" style="text-align:center;">Nessuna proposta caricata al momento.</td>
+	               	</tr>
+	            <% } %>
+	        </table>
         </div>
 	</body>
 </html>
