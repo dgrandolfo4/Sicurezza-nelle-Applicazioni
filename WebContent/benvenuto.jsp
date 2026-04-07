@@ -10,7 +10,7 @@
 		<div style="display: flex; justify-content: space-between">
 			<div>
 				<nav>
-	            	<a href="progetti.jsp">Visualizza Proposte Progettuali Caricate</a> |
+	            	<a href="ListaProposteServlet">Visualizza Proposte Progettuali Caricate</a> |
 	            	<a href="carica_proposta.jsp">Carica Proposta Progettuale</a>
             	</nav>		
 			</div>
