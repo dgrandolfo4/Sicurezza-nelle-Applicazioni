@@ -9,13 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import net.jcip.annotations.ThreadSafe;
 import uniba.sna.dao.LoginDAO;
 import uniba.sna.utils.CookieHelper;
 
 /**
  * Servlet implementation class LoginServlet
  */
+@ThreadSafe
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

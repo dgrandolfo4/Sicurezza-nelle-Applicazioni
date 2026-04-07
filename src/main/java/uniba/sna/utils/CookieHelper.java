@@ -5,7 +5,9 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
+import net.jcip.annotations.ThreadSafe;
 
+@ThreadSafe
 public class CookieHelper {
     
     private static final String ALGORITHM = "AES";

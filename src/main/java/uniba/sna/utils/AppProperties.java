@@ -2,7 +2,9 @@ package uniba.sna.utils;
 
 import java.io.InputStream;
 import java.util.Properties;
+import net.jcip.annotations.ThreadSafe;
 
+@ThreadSafe
 public class AppProperties {
     
     public static String getConfigProperty(String key) {

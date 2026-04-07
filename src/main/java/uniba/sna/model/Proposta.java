@@ -1,9 +1,12 @@
 package uniba.sna.model;
 
+import net.jcip.annotations.Immutable;
+
+@Immutable
 public class Proposta {
-    private String nomeOriginale;
-    private String autoreEmail;
-    private String dataUpload;
+    private final String nomeOriginale;
+    private final String autoreEmail;
+    private final String dataUpload;
 
     // Costruttore
     public Proposta( String nomeOriginale, String autoreEmail, String dataUpload) {

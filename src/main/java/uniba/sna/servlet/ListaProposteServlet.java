@@ -6,12 +6,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import net.jcip.annotations.ThreadSafe;
 import uniba.sna.dao.PropostaDAO;
 
 /**
  * Servlet implementation class ListaProposteServlet
  */
+@ThreadSafe
 @WebServlet("/ListaProposteServlet")
 public class ListaProposteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

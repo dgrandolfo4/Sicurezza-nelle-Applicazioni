@@ -12,9 +12,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import net.jcip.annotations.ThreadSafe;
 import uniba.sna.utils.CookieHelper;
 
+@ThreadSafe
 @WebFilter("/*")
 public class AuthFilter implements Filter {
 

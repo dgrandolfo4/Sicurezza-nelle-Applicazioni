@@ -24,13 +24,14 @@ import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
-
+import net.jcip.annotations.ThreadSafe;
 import uniba.sna.dao.RegistrazioneDAO;
 import uniba.sna.utils.AppProperties;
 
 /**
  * Servlet implementation class RegistrazioneServlet
  */
+@ThreadSafe
 @MultipartConfig
 @WebServlet("/RegistrazioneServlet")
 public class RegistrazioneServlet extends HttpServlet {

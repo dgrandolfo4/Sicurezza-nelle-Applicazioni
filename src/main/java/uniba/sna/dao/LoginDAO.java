@@ -6,9 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Base64;
-
+import net.jcip.annotations.NotThreadSafe;
 import uniba.sna.utils.AppProperties;
 
+@NotThreadSafe
 public class LoginDAO extends DatabaseDAO {
 	public boolean isUserValid(String email, byte[] pass) {
 		boolean status = false;

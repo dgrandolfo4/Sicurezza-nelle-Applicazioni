@@ -5,10 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import net.jcip.annotations.NotThreadSafe;
 import uniba.sna.utils.AppProperties;
 import uniba.sna.model.Proposta;
 
+@NotThreadSafe
 public class PropostaDAO extends DatabaseDAO {
 
     public boolean uploadProposta(String email, String fileName, String uniqueFileName) {
