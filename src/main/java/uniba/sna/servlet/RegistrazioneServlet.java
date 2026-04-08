@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -57,8 +58,8 @@ public class RegistrazioneServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	        
 		String email = request.getParameter("email").trim();
-	    byte[] password = request.getParameter("password").getBytes();
-	    byte[] retypePassword = request.getParameter("retype_password").getBytes();
+	    byte[] password = request.getParameter("password").getBytes(StandardCharsets.UTF_8);
+	    byte[] retypePassword = request.getParameter("retype_password").getBytes(StandardCharsets.UTF_8);
 	    
 	    // Controllo valorizzazione dell'email
 	    if (email == null || email.isEmpty()) {
@@ -156,9 +157,17 @@ public class RegistrazioneServlet extends HttpServlet {
         }
         // FINE [Controllo file]
 
-        // INIZIO [Hash password]
+        // INIZIO [Hash password + salt]
+        
         MessageDigest msgDigest;
+        byte[] salt = new byte[16];
+        
 		try {
+			// Generazione salt randomico
+			SecureRandom random = new SecureRandom();
+			random.nextBytes(salt);
+			
+			// Decisione dell'algoritmo di hash
 			msgDigest = MessageDigest.getInstance("SHA-256");
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -166,8 +175,10 @@ public class RegistrazioneServlet extends HttpServlet {
 			request.getRequestDispatcher("registrazione.jsp").forward(request, response);
             return;
 		}
+		
+		msgDigest.update(salt);
 		byte[] hashedPassword = msgDigest.digest(password);
-        // FINE [Hash password]
+        // FINE [Hash password + salt]
 		
 		// INIZIO [Controllo TOCTOU]
 		long currentModifiedTime = targetFile.lastModified();
@@ -186,7 +197,7 @@ public class RegistrazioneServlet extends HttpServlet {
 		// FINE [Controllo TOCTOU]
 
         RegistrazioneDAO dao = new RegistrazioneDAO();
-        boolean isRegistered = dao.registerUser(email, hashedPassword, originalFileName, uniqueFileName);
+        boolean isRegistered = dao.registerUser(email, hashedPassword, salt, originalFileName, uniqueFileName);
         
         if (isRegistered) {
         	request.setAttribute("msgSuccess", "Registrazione completata con successo! Ora puoi accedere.");

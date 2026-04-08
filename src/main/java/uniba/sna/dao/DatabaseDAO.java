@@ -13,15 +13,20 @@ abstract class DatabaseDAO {
     protected Connection connessione;
 
     protected boolean connect() throws ClassNotFoundException, SQLException, IOException {
+        return connect(false);
+    }
+    
+    protected boolean connect(boolean isAuthDb) throws ClassNotFoundException, SQLException, IOException {
         boolean connection = false;
         
-        // Parametri di connessione
+        // Parametri generali di connessione
         String src = AppProperties.getConfigProperty("source"); 
-        String db = AppProperties.getConfigProperty("schema_name"); 
         String connParams = AppProperties.getConfigProperty("connection_parameters");
-        // Utenza di accesso al DB
-        String userDb = AppProperties.getConfigProperty("user_db");
-        String passDb = AppProperties.getConfigProperty("password_db");
+
+        // Utenza di accesso al DB pubblico
+        String db = AppProperties.getConfigProperty(isAuthDb ? "schema_auth_name" : "schema_name"); 
+        String userDb = AppProperties.getConfigProperty(isAuthDb ? "user_auth_db" : "user_db");
+        String passDb = AppProperties.getConfigProperty(isAuthDb ? "password_auth_db" : "password_db");
         
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

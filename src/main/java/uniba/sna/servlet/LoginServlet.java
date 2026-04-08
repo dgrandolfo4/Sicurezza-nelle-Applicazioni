@@ -1,5 +1,6 @@
 package uniba.sna.servlet;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import javax.servlet.ServletException;
@@ -44,7 +45,7 @@ public class LoginServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		// Memorizziamo la password in un array di byte per garantire
 		// maggiore sicurezza rispetto a memorizzarla in una stringa.
-		byte[] password = request.getParameter("password").getBytes();
+		byte[] password = request.getParameter("password").getBytes(StandardCharsets.UTF_8);
 		
 		try {
 			LoginDAO dao = new LoginDAO();
