@@ -34,8 +34,8 @@
             <table border="1" style="width:100%; margin-top:20px;">
 	            <tr style="background-color: #f2f2f2;">
 	                <th>Nome File Caricato</th>
-	                <th>Autore</th>
 	                <th>Data Caricamento</th>
+	                <th>Autore</th>
 	                <th>Azioni</th>
 	            </tr>
             
