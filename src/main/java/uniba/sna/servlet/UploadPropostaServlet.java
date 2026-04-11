@@ -148,7 +148,7 @@ public class UploadPropostaServlet extends HttpServlet {
 
          if (isSaved) {
              // In caso di successo, mandiamo a benvenuto.jsp con il messaggio verde
-             request.setAttribute("msgSuccessHome", "Progetto caricato e salvato con successo!");
+             request.setAttribute("msgSuccessHome", "Proposta caricata e salvata con successo!");
              request.getRequestDispatcher("benvenuto.jsp").forward(request, response);
          } else {
              // In caso di errore DB, cancelliamo il file e rimaniamo sulla pagina di caricamento

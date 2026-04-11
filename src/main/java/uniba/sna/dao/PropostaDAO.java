@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.jcip.annotations.NotThreadSafe;
 import uniba.sna.utils.AppProperties;
+import uniba.sna.model.File;
 import uniba.sna.model.Proposta;
 
 @NotThreadSafe
@@ -55,9 +56,10 @@ public class PropostaDAO extends DatabaseDAO {
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     lista.add(new Proposta(
-                        rs.getString("name"), // nome originale del file
-                        rs.getString("email"),
-                        rs.getString("data_upload")
+                    	rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4)
                     ));
                 }
             }
@@ -69,5 +71,36 @@ public class PropostaDAO extends DatabaseDAO {
             close();
         }
         return lista;
+    }
+    
+    public File getFileNamesById(int propostaId) {
+        File file = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            if (connect()) {
+                String sql = AppProperties.getQueryProperty("selectFileNameByIdQuery");
+                ps = connessione.prepareStatement(sql);
+                ps.setInt(1, propostaId);
+                rs = ps.executeQuery();
+                
+                if (rs.next()) {
+                	String originalName = rs.getString(1);
+                    String uniqueName = rs.getString(2);
+                	
+                    file = new File(originalName, uniqueName);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        	try { if (ps != null) ps.close(); } catch (Exception e) {}
+        	try { if (rs != null) rs.close(); } catch (Exception e) {}
+        	
+            close();
+        }
+        
+        return file;
     }
 }

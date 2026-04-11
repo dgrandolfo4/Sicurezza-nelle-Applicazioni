@@ -36,18 +36,22 @@
 	                <th>Nome File Caricato</th>
 	                <th>Autore</th>
 	                <th>Data Caricamento</th>
+	                <th>Azioni</th>
 	            </tr>
             
 	            <% 
 	            @SuppressWarnings("unchecked")
 	            List<Proposta> lista = (List<Proposta>) request.getAttribute("listaProposte");
 	            if (lista != null && !lista.isEmpty()) {
-	                for(Proposta p : lista) { 
+	                for (Proposta p : lista) { 
 	            %>
 		                <tr>
 		                    <td><%= p.getNomeFile() %></td>
 		                    <td><%= p.getAutoreEmail() %></td>
 		                    <td><%= p.getDataUpload() %></td>
+		                    <td style="text-align:center;">
+		                        <a href="VisualizzaPropostaServlet?fileId=<%= p.getId() %>">Visualizza</a>
+		                    </td>
 		                </tr>
 	            <%  }
 	            } else { %>
